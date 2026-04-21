@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+torch
+librosa
+soundfile
+numpy
+matplotlib
+python-multipart
+confluent-kafka
+minio
+requests
