@@ -1,6 +1,8 @@
 import os
 import time
 import glob
+from pathlib import Path
+
 import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader
@@ -26,20 +28,52 @@ print("="*70)
 print("Обучение модели обработки клавиш (Keys Model Training)")
 print("="*70)
 
-# Получаем список файлов
-raw_files = sorted(glob.glob(os.path.join(KEYS_RAW_DIR, "*.wav")))
-processed_files = sorted(glob.glob(os.path.join(KEYS_PROCESSED_DIR, "*.wav")))
+# Получаем список файлов и сопоставляем пары
+def match_file_pairs(raw_dir, processed_dir):
+    """
+    Сопоставляет raw и processed файлы по базовому имени.
+    Ожидается что файлы называются:
+      - raw: name_raw.wav или name.wav
+      - processed: name_processed.wav
+    """
+    raw_files = glob.glob(os.path.join(raw_dir, "*.wav"))
+    processed_files = glob.glob(os.path.join(processed_dir, "*.wav"))
+    
+    pairs = []
+    unmatched_raw = []
+    
+    for raw_path in raw_files:
+        raw_name = Path(raw_path).stem  # например '1939_raw'
+        # Убираем '_raw' суффикс если есть
+        base_name = raw_name.replace('_raw', '')
+        
+        matched = False
+        for proc_path in processed_files:
+            proc_name = Path(proc_path).stem  # например '1939_processed'
+            
+            # Проверяем если processed файл содержит базовое имя и '_processed'
+            if base_name in proc_name and '_processed' in proc_name:
+                pairs.append((raw_path, proc_path))
+                matched = True
+                print(f"  ✓ Пара: {Path(raw_path).name} → {Path(proc_path).name}")
+                break
+        
+        if not matched:
+            unmatched_raw.append(raw_path)
+            print(f"  ⚠️  Не найдена пара для: {Path(raw_path).name}")
+    
+    return pairs, unmatched_raw
 
-if not raw_files or not processed_files:
-    print("ERROR: Не найдены файлы в data/keys/raw или data/keys/processed")
-    print(f"Raw files: {len(raw_files)}, Processed files: {len(processed_files)}")
+print("\nСопоставление пар raw → processed:")
+file_pairs, unmatched = match_file_pairs(KEYS_RAW_DIR, KEYS_PROCESSED_DIR)
+
+if not file_pairs:
+    print("ERROR: Не найдено пар файлов!")
     exit(1)
 
-print(f"\nОбнаружено файлов сырых записей: {len(raw_files)}")
-print(f"Обнаружено файлов обработанных записей: {len(processed_files)}")
-
-if len(raw_files) != len(processed_files):
-    print(f"ВНИМАНИЕ: Количество файлов не совпадает!")
+print(f"\nНайдено пар: {len(file_pairs)}")
+if unmatched:
+    print(f"⚠️  Без пары: {len(unmatched)} файлов")
 
 print("\n" + "="*70)
 print("ЭТАП 1: Разбиение аудио на 15-секундные сегменты")
@@ -47,25 +81,25 @@ print("="*70)
 
 # Разбиваем каждый файл на 15-секундные сегменты
 SEGMENT_DURATION = 15.0  # 15 секунд
-SAMPLE_RATE = 44100
+SAMPLE_RATE = 48000  # Единый sample rate для всех файлов
 
 # Проверяем, есть ли уже сегменты
 raw_segments = glob.glob(os.path.join(SEGMENTS_RAW_DIR, "*.wav"))
 processed_segments = glob.glob(os.path.join(SEGMENTS_PROCESSED_DIR, "*.wav"))
 
 if len(raw_segments) > 0 and len(processed_segments) > 0:
-    print(f"\n✓ Сегменты уже созданы ранее!")
+    print("\n✓ Сегменты уже созданы ранее!")
     print(f"  Найдено сегментов сырых записей: {len(raw_segments)}")
     print(f"  Найдено сегментов обработанных записей: {len(processed_segments)}")
-    print(f"  Пропускаем повторное разбиение.")
+    print("  Пропускаем повторное разбиение.")
 else:
     print("\nСегменты не найдены, создаю новые...")
     print("\nОбработка сырых записей...")
-    for raw_file in raw_files:
+    for raw_file, _ in file_pairs:
         split_and_save(raw_file, SEGMENTS_RAW_DIR, segment_duration=SEGMENT_DURATION, sample_rate=SAMPLE_RATE)
 
     print("\nОбработка обработанных записей...")
-    for proc_file in processed_files:
+    for _, proc_file in file_pairs:
         split_and_save(proc_file, SEGMENTS_PROCESSED_DIR, segment_duration=SEGMENT_DURATION, sample_rate=SAMPLE_RATE)
 
 print("\n" + "="*70)
@@ -78,7 +112,7 @@ print(f"\nОбщее количество сегментов: {len(dataset)}")
 
 # Загружаем данные батчами
 loader = DataLoader(dataset, batch_size=4, shuffle=True, num_workers=0)
-print(f"Размер батча: 4")
+print("Размер батча: 4")
 print(f"Количество батчей: {len(loader)}")
 
 # Инициализируем модель
@@ -87,14 +121,14 @@ print("ЭТАП 3: Инициализация модели")
 print("="*70)
 
 model = GRUSeparator().to(device)
-print(f"Модель: GRUSeparator")
+print("Модель: GRUSeparator")
 print(f"Используется устройство: {device}")
 
 # Функция потерь и оптимизатор
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
-print(f"Функция потерь: MSELoss + Spectral Loss")
-print(f"Оптимизатор: Adam (lr=1e-3)")
+print("Функция потерь: MSELoss + Spectral Loss")
+print("Оптимизатор: Adam (lr=1e-3)")
 
 # Функция для обучения эпохи
 def train_epoch(model, loader, criterion, optimizer, epoch, num_epochs):
@@ -178,7 +212,7 @@ print("\n" + "="*70)
 print("ЭТАП 5: Сохранение модели")
 print("="*70)
 
-model_path = "model_weights_keys.pth"
+model_path = "model_weights_keys_2204.pth"
 torch.save(model.state_dict(), model_path)
 print(f"\n✓ Модель сохранена: {model_path}")
 
@@ -192,5 +226,5 @@ print(f"Финальная потеря: {epoch_losses[-1]:.4f}")
 print(f"Улучшение: {((epoch_losses[0] - epoch_losses[-1]) / epoch_losses[0] * 100):.1f}%")
 print(f"Общее время обучения: {total_time/60:.1f} минут ({total_time:.0f} секунд)")
 print(f"Среднее время per epoch: {total_time/num_epochs:.1f} сек")
-print(f"\n✓ Обучение завершено успешно!")
+print("\n✓ Обучение завершено успешно!")
 print("="*70)

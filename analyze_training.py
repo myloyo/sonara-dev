@@ -1,7 +1,7 @@
 import librosa
 import numpy as np
 
-sr = 44100
+sr = 48000  # Единый sample rate для всех файлов
 
 # Загружаем файлы
 ref, _ = librosa.load('data/keys/reference.wav', sr=sr)
@@ -21,7 +21,6 @@ def analyze_audio(y, name):
 analyze_audio(ref, "Input (reference.wav)")
 analyze_audio(output, "Model output")
 analyze_audio(expected, "Expected (reference render 001.wav)")
-analyze_audio(processed_train, "Training target")
 
 print("\n" + "="*60)
 print("СПЕКТРАЛЬНЫЙ АНАЛИЗ (STFT)")
@@ -49,8 +48,6 @@ print('\nОутпут модели:')
 spectral_analysis(output, "Model output")
 print('\nОжидаемый результат:')
 spectral_analysis(expected, "Expected")
-print('\nТренировочный пример:')
-spectral_analysis(processed_train, "Training target")
 
 print("\n" + "="*60)
 print("РАЗНИЦА МЕЖДУ ОЖИДАНИЕМ И РЕАЛЬНОСТЬЮ")

@@ -19,7 +19,7 @@ SPEC_MIN = 1e-9  # Минимум для логарифма
 SPEC_MAX = 1.0   # Максимум нормализации
 
 
-def split_and_save(audio_path, save_dir, segment_duration=15.0, sample_rate=44100):
+def split_and_save(audio_path, save_dir, segment_duration=15.0, sample_rate=48000):
     """
     Разбивает аудиофайл на сегменты и сохраняет их.
     
@@ -27,7 +27,7 @@ def split_and_save(audio_path, save_dir, segment_duration=15.0, sample_rate=4410
         audio_path: Путь к входному аудиофайлу
         save_dir: Директория для сохранения сегментов
         segment_duration: Длина каждого сегмента в секундах
-        sample_rate: Частота дискретизации
+        sample_rate: Частота дискретизации (по умолчанию 48000 Hz)
     """
     os.makedirs(save_dir, exist_ok=True)
     print(f"Loading {audio_path} ...")
@@ -44,7 +44,7 @@ def split_and_save(audio_path, save_dir, segment_duration=15.0, sample_rate=4410
     print(f"Saved {total_segments} segments to {save_dir}")
 
 
-def stft_spectrogram(audio, sr=44100, n_fft=N_FFT, hop_length=HOP, win_length=WIN_LENGTH, window=WINDOW):
+def stft_spectrogram(audio, sr=48000, n_fft=N_FFT, hop_length=HOP, win_length=WIN_LENGTH, window=WINDOW):
     """
     Преобразование аудио в STFT спектрограмму с сохранением фазы.
     Использует оконное преобразование Ханна для гладких переходов.
@@ -79,7 +79,7 @@ def stft_spectrogram(audio, sr=44100, n_fft=N_FFT, hop_length=HOP, win_length=WI
     return magnitude_norm, phase
 
 
-def stft_to_audio(magnitude_norm, phase, sr=44100, n_fft=N_FFT, hop_length=HOP, win_length=WIN_LENGTH, window=WINDOW):
+def stft_to_audio(magnitude_norm, phase, sr=48000, n_fft=N_FFT, hop_length=HOP, win_length=WIN_LENGTH, window=WINDOW):
     """
     Восстановление аудио из STFT спектрограммы и фазы.
     Использует исходную фазу для сохранения качества звука.
@@ -117,7 +117,7 @@ class AudioEffectDataset(Dataset):
     Фаза берётся от исходного сигнала и не обучается.
     """
     
-    def __init__(self, clean_dir, processed_dir, sample_rate=44100):
+    def __init__(self, clean_dir, processed_dir, sample_rate=48000):
         self.sample_rate = sample_rate
         self.clean_files = sorted([
             os.path.join(clean_dir, f) for f in os.listdir(clean_dir) if f.endswith(".wav")
@@ -149,7 +149,7 @@ class AudioEffectDataset(Dataset):
         )
 
 
-def spectral_loss(output, target, sr=44100):
+def spectral_loss(output, target, sr=48000):
     """
     Спектральная потеря между выходом модели и целевой спектрограммой.
     
@@ -174,7 +174,7 @@ def spectral_loss(output, target, sr=44100):
     return loss
 
 
-def process_single_file(model, input_bytes, device, sample_rate=44100):
+def process_single_file(model, input_bytes, device, sample_rate=48000):
     """
     Обработка одного аудиофайла моделью.
     Сохраняет исходную фазу для лучшего восстановления звука.

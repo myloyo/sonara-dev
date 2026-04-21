@@ -12,14 +12,13 @@ import torch
 import librosa
 import soundfile as sf
 import numpy as np
-from pathlib import Path
 
 from app.model import GRUSeparator
-from app.utils import stft_spectrogram, stft_to_audio, N_FFT, HOP, WIN_LENGTH, WINDOW
+from app.utils import stft_spectrogram, stft_to_audio
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-MODEL_PATH = "model_weights_keys.pth"
-SAMPLE_RATE = 44100
+MODEL_PATH = "model_weights_keys_2104.pth"
+SAMPLE_RATE = 48000  # Единый sample rate для всех файлов
 
 
 def load_model():
@@ -70,11 +69,11 @@ def process_audio(model, input_path, output_path, chunk_size=15, debug=False, re
     
     # Если аудио короче чанка, обрабатываем целиком
     if len(audio) < chunk_size * SAMPLE_RATE:
-        print(f"Обрабатываю аудио целиком...")
+        print("Обрабатываю аудио целиком...")
         magnitude_norm, phase = stft_spectrogram(audio, sr)
         
         if debug:
-            print(f"\n[DEBUG] Входная спектрограмма:")
+            print("\n[DEBUG] Входная спектрограмма:")
             print(f"  Shape: {magnitude_norm.shape}")
             print(f"  Диапазон: [{magnitude_norm.min():.4f}, {magnitude_norm.max():.4f}]")
             print(f"  Среднее: {magnitude_norm.mean():.4f}, Std: {magnitude_norm.std():.4f}")
@@ -90,14 +89,14 @@ def process_audio(model, input_path, output_path, chunk_size=15, debug=False, re
         output_mag = np.clip(output_mag, 0, 1)
         
         if debug:
-            print(f"\n[DEBUG] Выходная спектрограмма:")
+            print("\n[DEBUG] Выходная спектрограмма:")
             print(f"  Shape: {output_mag.shape}")
             print(f"  Диапазон: [{output_mag.min():.4f}, {output_mag.max():.4f}]")
             print(f"  Среднее: {output_mag.mean():.4f}, Std: {output_mag.std():.4f}")
             
             if reference_mag is not None:
                 diff = np.abs(output_mag - reference_mag)
-                print(f"\n[DEBUG] Разница с reference:")
+                print("\n[DEBUG] Разница с reference:")
                 print(f"  MAE: {diff.mean():.4f}")
                 print(f"  Max diff: {diff.max():.4f}")
         
@@ -120,7 +119,7 @@ def process_audio(model, input_path, output_path, chunk_size=15, debug=False, re
             magnitude_norm, phase = stft_spectrogram(chunk, sr)
             
             if debug and i == 0:
-                print(f"\n[DEBUG] Первый чанк - входная спектрограмма:")
+                print("\n[DEBUG] Первый чанк - входная спектрограмма:")
                 print(f"  Shape: {magnitude_norm.shape}")
                 print(f"  Диапазон: [{magnitude_norm.min():.4f}, {magnitude_norm.max():.4f}]")
                 print(f"  Среднее: {magnitude_norm.mean():.4f}, Std: {magnitude_norm.std():.4f}")
@@ -135,7 +134,7 @@ def process_audio(model, input_path, output_path, chunk_size=15, debug=False, re
             output_mag = np.clip(output_mag, 0, 1)
             
             if debug and i == 0:
-                print(f"[DEBUG] Первый чанк - выходная спектрограмма:")
+                print("[DEBUG] Первый чанк - выходная спектрограмма:")
                 print(f"  Shape: {output_mag.shape}")
                 print(f"  Диапазон: [{output_mag.min():.4f}, {output_mag.max():.4f}]")
                 print(f"  Среднее: {output_mag.mean():.4f}, Std: {output_mag.std():.4f}")
@@ -156,7 +155,7 @@ def process_audio(model, input_path, output_path, chunk_size=15, debug=False, re
     
     # Диагностика выходного аудио
     if debug:
-        print(f"\n[DEBUG] Выходное аудио:")
+        print("\n[DEBUG] Выходное аудио:")
         print(f"  Диапазон: [{output_audio.min():.4f}, {output_audio.max():.4f}]")
         print(f"  Среднее: {output_audio.mean():.4f}, Std: {output_audio.std():.4f}")
         print(f"  Количество нулей: {np.sum(output_audio == 0)} / {len(output_audio)}")

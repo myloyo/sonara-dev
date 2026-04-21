@@ -79,7 +79,7 @@ def process_job(message):
         input_bytes = download_file(input_key)
         print(f"[Download] Downloaded {len(input_bytes)} bytes")
         
-        print(f"[ML] Processing with model")
+        print("[ML] Processing with model")
         result_buf = process_audio_file(input_bytes)
         result_buf.seek(0)
         result_bytes = result_buf.getvalue()
@@ -88,7 +88,7 @@ def process_job(message):
         print(f"[Upload] Uploading result to {output_key}")
         result_buf.seek(0)
         upload_file(output_key, result_buf, result_bytes)
-        print(f"[Upload] Uploaded successfully")
+        print("[Upload] Uploaded successfully")
         
         update_backend_job(job_id, "Completed", output_key=output_key)
         publish_result(job_id, output_key, success=True)

@@ -138,11 +138,11 @@ build/
 *.mp3
 *.flac
 
-# Model weights
-*.pth
-*.pt
-*.pkl
+# # Model weights
+# *.pth
+# *.pt
+# *.pkl
 
-# Data
+# # Data
 data/keys_segments/
-model_weights_keys*.pth
+# model_weights_keys*.pth

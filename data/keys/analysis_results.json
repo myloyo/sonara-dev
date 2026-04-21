@@ -1,0 +1,492 @@
+[
+  {
+    "file": "data/keys/21-250309_1003.wav",
+    "sample_rate": 48000,
+    "duration_sec": 491.382,
+    "samples": 23586320,
+    "amplitude": {
+      "rms_mean": 0.013556,
+      "rms_std": 0.012338,
+      "rms_max": 0.090394,
+      "rms_min": 3e-06,
+      "peak": 0.208949
+    },
+    "loudness_db": {
+      "mean": -41.57,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 3015.52,
+      "spectral_centroid_std": 4205.91,
+      "spectral_rolloff_mean": 5130.95
+    },
+    "timbre": {
+      "zcr_mean": 0.120288,
+      "mfcc_mean": [
+        -555.25,
+        138.89,
+        33.18,
+        1.1,
+        8.84,
+        5.22,
+        -1.69,
+        -3.31,
+        -4.65,
+        -5.97,
+        -5.68,
+        -5.28,
+        -6.05
+      ]
+    },
+    "spectral_contrast_mean": [
+      18.67,
+      13.72,
+      16.57,
+      19.87,
+      22.32,
+      21.56,
+      33.96
+    ]
+  },
+  {
+    "file": "data/keys/processed/1939_raw_48kgh render 001.wav",
+    "sample_rate": 48000,
+    "duration_sec": 2379.6,
+    "samples": 114220800,
+    "amplitude": {
+      "rms_mean": 0.087201,
+      "rms_std": 0.05482,
+      "rms_max": 0.448445,
+      "rms_min": 0.0,
+      "peak": 1.0
+    },
+    "loudness_db": {
+      "mean": -29.37,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 873.61,
+      "spectral_centroid_std": 1667.61,
+      "spectral_rolloff_mean": 1482.31
+    },
+    "timbre": {
+      "zcr_mean": 0.031055,
+      "mfcc_mean": [
+        -325.35,
+        189.93,
+        66.04,
+        -3.1,
+        -9.78,
+        0.27,
+        5.36,
+        3.43,
+        -1.36,
+        -2.69,
+        -1.35,
+        -1.48,
+        -2.69
+      ]
+    },
+    "spectral_contrast_mean": [
+      22.74,
+      11.82,
+      15.82,
+      20.89,
+      26.69,
+      22.95,
+      32.09
+    ]
+  },
+  {
+    "file": "data/keys/processed/21-keys-251017_1830_processed.wav",
+    "sample_rate": 48000,
+    "duration_sec": 3049.0,
+    "samples": 146352000,
+    "amplitude": {
+      "rms_mean": 0.086611,
+      "rms_std": 0.049095,
+      "rms_max": 0.574695,
+      "rms_min": 0.0,
+      "peak": 1.0
+    },
+    "loudness_db": {
+      "mean": -27.98,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 594.6,
+      "spectral_centroid_std": 192.7,
+      "spectral_rolloff_mean": 957.95
+    },
+    "timbre": {
+      "zcr_mean": 0.018497,
+      "mfcc_mean": [
+        -304.8,
+        176.91,
+        66.25,
+        4.89,
+        -6.05,
+        -1.72,
+        3.26,
+        3.61,
+        0.47,
+        -1.11,
+        -1.39,
+        -2.9,
+        -4.45
+      ]
+    },
+    "spectral_contrast_mean": [
+      23.87,
+      11.63,
+      16.8,
+      21.45,
+      25.18,
+      22.61,
+      34.06
+    ]
+  },
+  {
+    "file": "data/keys/processed/21-keys-260215_0901_processed.wav",
+    "sample_rate": 48000,
+    "duration_sec": 604.763,
+    "samples": 29028624,
+    "amplitude": {
+      "rms_mean": 0.079998,
+      "rms_std": 0.025837,
+      "rms_max": 0.184908,
+      "rms_min": 0.0,
+      "peak": 0.573147
+    },
+    "loudness_db": {
+      "mean": -23.04,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 695.49,
+      "spectral_centroid_std": 86.19,
+      "spectral_rolloff_mean": 1216.12
+    },
+    "timbre": {
+      "zcr_mean": 0.024203,
+      "mfcc_mean": [
+        -353.05,
+        259.84,
+        46.13,
+        -42.61,
+        -11.88,
+        13.56,
+        4.35,
+        -0.49,
+        2.23,
+        -1.83,
+        -6.09,
+        -4.49,
+        -3.32
+      ]
+    },
+    "spectral_contrast_mean": [
+      26.28,
+      13.98,
+      15.99,
+      20.58,
+      27.73,
+      23.17,
+      31.25
+    ]
+  },
+  {
+    "file": "data/keys/processed/21-keys-260215_1325_processed.wav",
+    "sample_rate": 48000,
+    "duration_sec": 1243.6,
+    "samples": 59692800,
+    "amplitude": {
+      "rms_mean": 0.085868,
+      "rms_std": 0.035547,
+      "rms_max": 0.254108,
+      "rms_min": 0.0,
+      "peak": 0.94864
+    },
+    "loudness_db": {
+      "mean": -27.29,
+      "max": -0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 685.02,
+      "spectral_centroid_std": 315.57,
+      "spectral_rolloff_mean": 1148.8
+    },
+    "timbre": {
+      "zcr_mean": 0.021215,
+      "mfcc_mean": [
+        -330.44,
+        230.68,
+        54.22,
+        -19.17,
+        -11.53,
+        6.42,
+        4.04,
+        -3.1,
+        -2.56,
+        -1.26,
+        -0.2,
+        -0.76,
+        -1.81
+      ]
+    },
+    "spectral_contrast_mean": [
+      23.8,
+      12.01,
+      15.66,
+      19.87,
+      26.52,
+      24.33,
+      32.79
+    ]
+  },
+  {
+    "file": "data/keys/raw/1939_raw_48kgh.wav",
+    "sample_rate": 48000,
+    "duration_sec": 2378.6,
+    "samples": 114172800,
+    "amplitude": {
+      "rms_mean": 0.018543,
+      "rms_std": 0.011446,
+      "rms_max": 0.069433,
+      "rms_min": 3e-06,
+      "peak": 0.203036
+    },
+    "loudness_db": {
+      "mean": -28.88,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 784.39,
+      "spectral_centroid_std": 1719.87,
+      "spectral_rolloff_mean": 1346.6
+    },
+    "timbre": {
+      "zcr_mean": 0.026639,
+      "mfcc_mean": [
+        -506.62,
+        189.67,
+        70.04,
+        6.01,
+        0.32,
+        7.54,
+        9.83,
+        6.48,
+        1.16,
+        -0.45,
+        0.49,
+        -0.0,
+        -1.33
+      ]
+    },
+    "spectral_contrast_mean": [
+      22.26,
+      12.07,
+      16.21,
+      20.52,
+      26.17,
+      22.89,
+      32.15
+    ]
+  },
+  {
+    "file": "data/keys/raw/21-keys-251017_1830_raw.wav",
+    "sample_rate": 48000,
+    "duration_sec": 3048.0,
+    "samples": 146304000,
+    "amplitude": {
+      "rms_mean": 0.017977,
+      "rms_std": 0.009198,
+      "rms_max": 0.271015,
+      "rms_min": 0.000558,
+      "peak": 0.487975
+    },
+    "loudness_db": {
+      "mean": -35.04,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 496.81,
+      "spectral_centroid_std": 197.51,
+      "spectral_rolloff_mean": 815.39
+    },
+    "timbre": {
+      "zcr_mean": 0.013618,
+      "mfcc_mean": [
+        -430.41,
+        132.48,
+        67.19,
+        21.65,
+        6.09,
+        5.07,
+        7.06,
+        6.57,
+        3.59,
+        1.34,
+        0.1,
+        -1.44,
+        -2.78
+      ]
+    },
+    "spectral_contrast_mean": [
+      23.48,
+      11.83,
+      17.38,
+      21.07,
+      24.69,
+      22.56,
+      34.11
+    ]
+  },
+  {
+    "file": "data/keys/raw/21-keys-260215_0901_raw.wav",
+    "sample_rate": 48000,
+    "duration_sec": 603.763,
+    "samples": 28980624,
+    "amplitude": {
+      "rms_mean": 0.016327,
+      "rms_std": 0.005971,
+      "rms_max": 0.043082,
+      "rms_min": 0.000522,
+      "peak": 0.119525
+    },
+    "loudness_db": {
+      "mean": -22.9,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 583.58,
+      "spectral_centroid_std": 94.47,
+      "spectral_rolloff_mean": 1113.3
+    },
+    "timbre": {
+      "zcr_mean": 0.016205,
+      "mfcc_mean": [
+        -511.77,
+        236.31,
+        55.56,
+        -27.73,
+        -5.49,
+        19.75,
+        11.49,
+        2.35,
+        3.52,
+        1.21,
+        -3.81,
+        -3.73,
+        -1.93
+      ]
+    },
+    "spectral_contrast_mean": [
+      25.74,
+      14.37,
+      16.39,
+      20.37,
+      27.2,
+      23.13,
+      31.33
+    ]
+  },
+  {
+    "file": "data/keys/raw/21-keys-260215_1325_raw.wav",
+    "sample_rate": 48000,
+    "duration_sec": 1242.6,
+    "samples": 59644800,
+    "amplitude": {
+      "rms_mean": 0.017382,
+      "rms_std": 0.007016,
+      "rms_max": 0.045027,
+      "rms_min": 5e-06,
+      "peak": 0.162025
+    },
+    "loudness_db": {
+      "mean": -25.63,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 584.02,
+      "spectral_centroid_std": 354.95,
+      "spectral_rolloff_mean": 1023.74
+    },
+    "timbre": {
+      "zcr_mean": 0.015518,
+      "mfcc_mean": [
+        -502.34,
+        220.71,
+        59.98,
+        -7.67,
+        -1.75,
+        12.98,
+        8.94,
+        0.41,
+        -0.09,
+        0.93,
+        1.64,
+        0.87,
+        -0.43
+      ]
+    },
+    "spectral_contrast_mean": [
+      23.31,
+      12.27,
+      15.96,
+      19.56,
+      25.98,
+      24.27,
+      32.86
+    ]
+  },
+  {
+    "file": "data/keys/reference.wav",
+    "sample_rate": 48000,
+    "duration_sec": 36.0,
+    "samples": 1728000,
+    "amplitude": {
+      "rms_mean": 0.01655,
+      "rms_std": 0.008265,
+      "rms_max": 0.041115,
+      "rms_min": 0.00411,
+      "peak": 0.107958
+    },
+    "loudness_db": {
+      "mean": -22.24,
+      "max": 0.0
+    },
+    "frequency": {
+      "spectral_centroid_mean": 569.17,
+      "spectral_centroid_std": 244.75,
+      "spectral_rolloff_mean": 912.58
+    },
+    "timbre": {
+      "zcr_mean": 0.013868,
+      "mfcc_mean": [
+        -545.38,
+        203.88,
+        65.35,
+        20.0,
+        12.01,
+        7.84,
+        6.26,
+        -2.45,
+        -5.64,
+        -6.81,
+        -9.22,
+        -6.07,
+        -5.33
+      ]
+    },
+    "spectral_contrast_mean": [
+      23.49,
+      13.71,
+      20.32,
+      25.38,
+      25.95,
+      18.84,
+      36.96
+    ]
+  }
+]
