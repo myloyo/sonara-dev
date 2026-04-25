@@ -1,4 +1,4 @@
-# ML Audio Processor
+# SONARA - instrumental audio processor
 
 Асинхронный Kafka worker для обработки аудиофайлов с моделью GRU.
 
@@ -29,28 +29,6 @@ Kafka (job.completed/failed)
 - MinIO Console: http://localhost:9001 (minio/minio123)
 - Kafka: localhost:9092
 
-## Структура
-
-```
-app/
-  main.py           - FastAPI (endpoints, lifespan)
-  config.py         - Переменные окружения
-  kafka_service.py  - Consumer/producer логика
-  minio_service.py  - Download/upload файлов
-  model_service.py  - Загрузка модели, обработка
-  model.py          - GRU архитектура
-  utils.py          - Утилиты аудио
-```
-
-## Конфигурация
-
-Переменные в `app/config.py`:
-
-- `KAFKA_BOOTSTRAP` (default: kafka:9092)
-- `MINIO_ENDPOINT` (default: minio:9000)
-- `BACKEND_URL` (default: http://backend:8080/api/jobs)
-- `BUCKET` (default: audio-files)
-- `DEVICE` (default: cuda)
 
 ## Backend интеграция
 

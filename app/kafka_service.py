@@ -10,8 +10,8 @@ from .config import (
     BACKEND_URL,
     BACKEND_TIMEOUT,
 )
-from .minio_service import download_file, upload_file
-from .model_service import process_audio_file
+from .minio_service import download_file, upload_file, get_content_type
+from .model_service_unet import process_audio_file_improved
 
 
 def get_kafka_consumer():
@@ -70,24 +70,34 @@ def process_job(message):
     data = json.loads(message.value().decode())
     job_id = data["jobId"]
     input_key = data["inputKey"]
-    output_key = f"output/{job_id}.wav"
+    
+    # Получаем instrumentId и genreId из сообщения
+    instrument_id = data.get("instrumentId", "keys")
+    genre_id = data.get("genreId", "default")
+    
+    # Определяем формат выходного файла по входному
+    output_ext = input_key.rsplit(".", 1)[-1] if "." in input_key else "wav"
+    output_key = f"output/{instrument_id}/{genre_id}/{job_id}.{output_ext}"
     
     try:
         print(f"[Job] Processing job {job_id}")
+        print(f"  Instrument: {instrument_id}, Genre: {genre_id}")
+        print(f"  Input: {input_key}")
+        print(f"  Output: {output_key}")
         
         print(f"[Download] Downloading {input_key}")
         input_bytes = download_file(input_key)
         print(f"[Download] Downloaded {len(input_bytes)} bytes")
         
-        print("[ML] Processing with model")
-        result_buf = process_audio_file(input_bytes)
+        print("[ML] Processing with Improved UNet model (keys)")
+        result_buf = process_audio_file_improved(input_bytes, output_format=output_ext.upper())
         result_buf.seek(0)
         result_bytes = result_buf.getvalue()
         print(f"[ML] Processing completed, output size: {len(result_bytes)} bytes")
         
         print(f"[Upload] Uploading result to {output_key}")
         result_buf.seek(0)
-        upload_file(output_key, result_buf, result_bytes)
+        upload_file(output_key, result_buf, len(result_bytes))
         print("[Upload] Uploaded successfully")
         
         update_backend_job(job_id, "Completed", output_key=output_key)
