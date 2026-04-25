@@ -70,10 +70,12 @@ def stft_spectrogram(audio, sr=48000, n_fft=N_FFT, hop_length=HOP, win_length=WI
     magnitude = np.abs(D)
     phase = np.angle(D)
     
-    # Нормализуем амплитуду в логарифмическом масштабе со СТАБИЛЬНЫМ ref
-    # Используем фиксированную ссылку для консистентной нормализации между чанками
+    # Нормализация через логарифмическую шкалу (оригинальная версия)
+    # top_db=80 даёт лучший динамический диапазон для музыки
     magnitude_db = librosa.power_to_db(magnitude ** 2, ref=1.0, top_db=80)
-    magnitude_norm = (magnitude_db + 80) / 80  # Нормализация к [0, 1]
+    
+    # Нормализация к [0, 1]
+    magnitude_norm = (magnitude_db + 80) / 80
     magnitude_norm = np.clip(magnitude_norm, 0, 1)
     
     return magnitude_norm, phase
@@ -92,6 +94,7 @@ def stft_to_audio(magnitude_norm, phase, sr=48000, n_fft=N_FFT, hop_length=HOP, 
         audio: Восстановленное аудио (time,)
     """
     # Денормализуем амплитуду (инверсия к кодированию)
+    # Используем тот же диапазон 80 dB как в stft_spectrogram для консистентности
     magnitude_db = magnitude_norm * 80 - 80
     # Используем тот же ref=1.0 для консистентности!
     magnitude = librosa.db_to_power(magnitude_db, ref=1.0) ** 0.5
@@ -149,13 +152,16 @@ class AudioEffectDataset(Dataset):
         )
 
 
-def spectral_loss(output, target, sr=48000):
+def spectral_loss(output, target, sr=48000, n_fft=N_FFT):
     """
     Спектральная потеря между выходом модели и целевой спектрограммой.
+    Без частотных весов - используем равномерную потерю для избежания шумов.
     
     Args:
         output: Output spectrogram (batch, 1, freq, time)
         target: Target spectrogram (batch, 1, freq, time)
+        sr: Sample rate (default: 48000)
+        n_fft: FFT size (default: 2048)
         
     Returns:
         L1 loss между спектрограммами
@@ -168,7 +174,7 @@ def spectral_loss(output, target, sr=48000):
     out = torch.clamp(out, min=0, max=1)
     tgt = torch.clamp(tgt, min=0, max=1)
     
-    # L1 потеря между спектрограммами
+    # Простая L1 потеря без весов - чтобы не усиливать шумы
     loss = F.l1_loss(out, tgt)
     
     return loss
