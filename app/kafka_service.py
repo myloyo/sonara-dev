@@ -66,18 +66,31 @@ def update_backend_job(job_id: str, status: str, output_key: str = None, error_m
         print(f"[Backend] Error updating job {job_id}: {e}")
 
 
+# Маппинг enum значений инструментов (backend отправляет число: 1=keys, 2=bass)
+INSTRUMENT_MAP = {
+    1: "keys",
+    2: "bass",
+    "keys": "keys",
+    "bass": "bass"
+}
+
+
 def process_job(message):
     data = json.loads(message.value().decode())
     job_id = data["jobId"]
     input_key = data["inputKey"]
+    output_key = data["outputKey"]  # Используем outputKey из сообщения
     
-    # Получаем instrumentId и genreId из сообщения
-    instrument_id = data.get("instrumentId", "keys")
-    genre_id = data.get("genreId", "default")
+    # Получаем instrument и genre из parameters
+    parameters = data.get("parameters", {})
+    raw_instrument = parameters.get("instrument", 1)
+    
+    # Маппим enum в строку
+    instrument_id = INSTRUMENT_MAP.get(raw_instrument, "keys")
+    genre_id = parameters.get("genre", "default")
     
     # Определяем формат выходного файла по входному
     output_ext = input_key.rsplit(".", 1)[-1] if "." in input_key else "wav"
-    output_key = f"output/{instrument_id}/{genre_id}/{job_id}.{output_ext}"
     
     try:
         print(f"[Job] Processing job {job_id}")

@@ -4,6 +4,11 @@ INSTRUMENTS = {
         "processor_fn": "process_audio_file",
         "description": "U-Net модель для обработки клавиш"
     },
+    "bass": {
+        "module_path": "app.models.bass",
+        "processor_fn": "process_audio_file",
+        "description": "U-Net модель для обработки бас-гитары"
+    },
     # Шаблон для добавления нового инструмента:
     # "piano": {
     #     "module_path": "app.models.piano",

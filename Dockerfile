@@ -21,7 +21,8 @@ RUN poetry install --only main --no-root --no-interaction
 
 # Copy application code
 COPY app ./app
-COPY model_weights_keys_improved_unet.pth ./model_weights.pth
+COPY model_weights_keys_improved_unet.pth ./model_weights_keys_improved_unet.pth
+COPY model_weights_bass_improved_unet.pth ./model_weights_bass_improved_unet.pth
 
 # Expose port
 EXPOSE 8000
