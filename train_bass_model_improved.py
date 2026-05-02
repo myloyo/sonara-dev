@@ -2,7 +2,7 @@ import os
 import time
 import glob
 from pathlib import Path
-import random
+import shutil
 
 import torch
 import torch.nn as nn
@@ -84,12 +84,12 @@ if not file_pairs:
         for raw, proc in file_pairs:
             print(f"  {Path(raw).name} → {Path(proc).name}")
     else:
-        print(f"\nERROR: Количество файлов не совпадает!")
+        print("\nERROR: Количество файлов не совпадает!")
         print(f"  Raw файлов: {len(raw_files)}")
         print(f"  Processed файлов: {len(processed_files)}")
         exit(1)
 
-print(f"\n" + "="*70)
+print("\n" + "="*70)
 print(f"ВСЕГО НАЙДЕНО ПАР: {len(file_pairs)}")
 print("="*70)
 
@@ -110,7 +110,7 @@ if len(raw_segments) > 0 and len(processed_segments) > 0:
     
     # Проверяем консистентность
     if len(raw_segments) != len(processed_segments):
-        print(f"\n⚠️ ВНИМАНИЕ: Количество сегментов не совпадает!")
+        print("\n⚠️ ВНИМАНИЕ: Количество сегментов не совпадает!")
         print(f"  Raw сегментов: {len(raw_segments)}")
         print(f"  Processed сегментов: {len(processed_segments)}")
         print("  Рекомендуется удалить старые сегменты и создать заново.")
@@ -230,7 +230,7 @@ os.makedirs(MATCHED_RAW_DIR, exist_ok=True)
 os.makedirs(MATCHED_PROCESSED_DIR, exist_ok=True)
 
 # Копируем только сопоставленные файлы
-import shutil
+
 for raw_file, proc_file in matched_pairs:
     shutil.copy(raw_file, os.path.join(MATCHED_RAW_DIR, Path(raw_file).name))
     shutil.copy(proc_file, os.path.join(MATCHED_PROCESSED_DIR, Path(proc_file).name))
@@ -322,8 +322,8 @@ class CombinedLoss(nn.Module):
 criterion = CombinedLoss(l1_weight=0.8, ssim_weight=0.2)
 
 print(f"\nОптимизатор: Adam (lr={initial_lr})")
-print(f"Scheduler: StepLR (step_size=15, gamma=0.5)")
-print(f"Функция потерь: Combined (L1=0.8 + SSIM=0.2 + Edge=0.05)")
+print("Scheduler: StepLR (step_size=15, gamma=0.5)")
+print("Функция потерь: Combined (L1=0.8 + SSIM=0.2 + Edge=0.05)")
 
 # Gradient scaler для mixed precision (если поддерживается)
 use_amp = device.type == 'cuda'
@@ -481,7 +481,7 @@ print("="*70)
 actual_epochs = len(epoch_losses)
 print(f"Количество эпох: {actual_epochs}")
 if early_stop:
-    print(f"Ранняя остановка")
+    print("Ранняя остановка")
 else:
     print(f"Завершено по достижении {MAX_EPOCHS} эпох")
 

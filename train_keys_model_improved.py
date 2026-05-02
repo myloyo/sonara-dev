@@ -2,7 +2,6 @@ import os
 import time
 import glob
 from pathlib import Path
-import random
 
 import torch
 import torch.nn as nn
@@ -173,8 +172,8 @@ class CombinedLoss(nn.Module):
 criterion = CombinedLoss(l1_weight=0.8, ssim_weight=0.2)
 
 print(f"\nОптимизатор: Adam (lr={initial_lr})")
-print(f"Scheduler: StepLR (step_size=15, gamma=0.5)")
-print(f"Функция потерь: Combined (L1 + SSIM + Edge)")
+print("Scheduler: StepLR (step_size=15, gamma=0.5)")
+print("Функция потерь: Combined (L1 + SSIM + Edge)")
 
 # Gradient scaler для mixed precision (если поддерживается)
 use_amp = device.type == 'cuda'
@@ -332,7 +331,7 @@ print("="*70)
 actual_epochs = len(epoch_losses)
 print(f"Количество эпох: {actual_epochs}")
 if early_stop:
-    print(f"Ранняя остановка")
+    print("Ранняя остановка")
 else:
     print(f"Завершено по достижении {MAX_EPOCHS} эпох")
 

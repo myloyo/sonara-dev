@@ -100,9 +100,6 @@ def complex_stft(audio, sr=48000, n_fft=N_FFT, hop_length=HOP, win_length=WIN_LE
         center=True
     )
     
-    real = np.real(D)
-    imag = np.imag(D)
-    
     # Нормализация
     magnitude = np.abs(D)
     magnitude_db = librosa.power_to_db(magnitude ** 2, ref=1.0, top_db=80)

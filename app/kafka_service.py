@@ -10,7 +10,7 @@ from .config import (
     BACKEND_URL,
     BACKEND_TIMEOUT,
 )
-from .minio_service import download_file, upload_file, get_content_type
+from .minio_service import download_file, upload_file
 from .model_manager import get_model_manager
 
 
