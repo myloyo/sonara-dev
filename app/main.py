@@ -10,7 +10,7 @@ consumer_thread = None
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global consumer_thread
-    print("[App] Starting ML Audio Processor")
+    print("[App] Starting Sonara dev")
     consumer_thread = threading.Thread(target=kafka_consumer_loop, daemon=True)
     consumer_thread.start()
     print("[App] Kafka consumer started")
@@ -18,14 +18,14 @@ async def lifespan(app: FastAPI):
     print("[App] Shutting down")
 
 
-app = FastAPI(title="ML Audio Processor", lifespan=lifespan)
+app = FastAPI(title="Sonara dev", lifespan=lifespan)
 
 
 @app.get("/health")
 def health():
-    return {"status": "ok", "service": "ML Audio Processor"}
+    return {"status": "ok", "service": "Sonara dev"}
 
 
 @app.get("/")
 def root():
-    return {"service": "ML Audio Processor", "version": "1.0", "mode": "worker"}
+    return {"service": "Sonara dev", "version": "1.0", "mode": "worker"}

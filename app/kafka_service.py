@@ -11,7 +11,7 @@ from .config import (
     BACKEND_TIMEOUT,
 )
 from .minio_service import download_file, upload_file, get_content_type
-from .model_service_unet import process_audio_file_improved
+from .model_manager import get_model_manager
 
 
 def get_kafka_consumer():
@@ -89,8 +89,10 @@ def process_job(message):
         input_bytes = download_file(input_key)
         print(f"[Download] Downloaded {len(input_bytes)} bytes")
         
-        print("[ML] Processing with Improved UNet model (keys)")
-        result_buf = process_audio_file_improved(input_bytes, output_format=output_ext.upper())
+        # Используем ModelManager для выбора обработчика по инструменту
+        manager = get_model_manager()
+        print(f"[ML] Processing with '{instrument_id}' model")
+        result_buf = manager.process_audio(instrument_id, input_bytes, output_format=output_ext.upper())
         result_buf.seek(0)
         result_bytes = result_buf.getvalue()
         print(f"[ML] Processing completed, output size: {len(result_bytes)} bytes")
@@ -106,6 +108,8 @@ def process_job(message):
         
     except Exception as e:
         print(f"[Error] Job {job_id} failed: {e}")
+        import traceback
+        traceback.print_exc()
         update_backend_job(job_id, "Failed", error_msg=str(e))
         publish_result(job_id, None, success=False, error_msg=str(e))
 
