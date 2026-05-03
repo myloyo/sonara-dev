@@ -1,6 +1,8 @@
 # SONARA - instrumental audio processor
 
-Асинхронный Kafka worker для обработки аудиофайлов (инструментальное разделение: клавиши и бас).
+Асинхронный Kafka worker для обработки аудиофайлов инструментов
+
+МЛ-сервис для [приложения обработки аудио](https://github.com/nikiveron/AudioProcessing)
 
 ## Быстрый старт
 
