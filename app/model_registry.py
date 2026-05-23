@@ -23,12 +23,10 @@ INSTRUMENTS = {
 
 
 def get_available_instruments():
-    """Возвращает список доступных инструментов."""
     return list(INSTRUMENTS.keys())
 
 
 def get_instrument_info(instrument_id: str):
-    """Получить информацию об инструменте."""
     if instrument_id not in INSTRUMENTS:
         raise ValueError(f"Unknown instrument: {instrument_id}. Available: {get_available_instruments()}")
     return INSTRUMENTS[instrument_id]
